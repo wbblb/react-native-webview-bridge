@@ -10,7 +10,12 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
+#if __has_include(<React/RCTAssert.h>)
+#import <React/RCTView.h>
+else
 #import "RCTView.h"
+#endif
+
 
 @class RCTWebViewBridge;
 

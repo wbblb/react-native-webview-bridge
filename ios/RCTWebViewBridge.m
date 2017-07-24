@@ -14,6 +14,15 @@
 
 #import <UIKit/UIKit.h>
 
+#if __has_include(<React/RCTAssert.h>)
+#import <React/RCTAutoInsetsProtocol.h>
+#import <React/RCTConvert.h>
+#import <React/RCTEventDispatcher.h>
+#import <React/RCTLog.h>
+#import <React/RCTUtils.h>
+#import <React/RCTView.h>
+#import <React/UIView+React.h>
+else
 #import "RCTAutoInsetsProtocol.h"
 #import "RCTConvert.h"
 #import "RCTEventDispatcher.h"
@@ -21,6 +30,8 @@
 #import "RCTUtils.h"
 #import "RCTView.h"
 #import "UIView+React.h"
+#endif
+
 #import <objc/runtime.h>
 
 //This is a very elegent way of defining multiline string in objective-c.
