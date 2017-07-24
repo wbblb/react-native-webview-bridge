@@ -12,7 +12,7 @@
 
 #if __has_include(<React/RCTAssert.h>)
 #import <React/RCTView.h>
-else
+#else
 #import "RCTView.h"
 #endif
 

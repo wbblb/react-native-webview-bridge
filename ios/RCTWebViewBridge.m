@@ -22,7 +22,7 @@
 #import <React/RCTUtils.h>
 #import <React/RCTView.h>
 #import <React/UIView+React.h>
-else
+#else
 #import "RCTAutoInsetsProtocol.h"
 #import "RCTConvert.h"
 #import "RCTEventDispatcher.h"
