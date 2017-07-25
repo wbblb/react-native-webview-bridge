@@ -90,11 +90,13 @@ var defaultRenderError = (errorDomain, errorCode, errorDesc) => (
 /**
  * Renders a native WebView.
  */
-class WebViewBridge extends React.Component {
-  static JSNavigationScheme = JSNavigationScheme;
-  static NavigationType = NavigationType;
+var WebViewBridge = React.createClass({
+  statics: {
+    JSNavigationScheme: JSNavigationScheme,
+    NavigationType: NavigationType,
+  },
 
-  static propTypes = {
+  propTypes: {
     ...WebView.propTypes,
 
     /**
@@ -105,21 +107,23 @@ class WebViewBridge extends React.Component {
     hideKeyboardAccessoryView: PropTypes.bool,
 
     keyboardDisplayRequiresUserAction: PropTypes.bool,
-  };
+  },
 
-  state = {
-    viewState: WebViewBridgeState.IDLE,
-    lastErrorEvent: (null: ?ErrorEvent),
-    startInLoadingState: true,
-  };
+  getInitialState: function() {
+    return {
+      viewState: WebViewBridgeState.IDLE,
+      lastErrorEvent: (null: ?ErrorEvent),
+      startInLoadingState: true,
+    };
+  },
 
-  componentWillMount() {
+  componentWillMount: function() {
     if (this.props.startInLoadingState) {
       this.setState({viewState: WebViewBridgeState.LOADING});
     }
-  }
+  },
 
-  render() {
+  render: function() {
     var otherView = null;
 
     if (this.state.viewState === WebViewBridgeState.LOADING) {
@@ -198,57 +202,57 @@ class WebViewBridge extends React.Component {
         {otherView}
       </View>
     );
-  }
+  },
 
-  goForward = () => {
+  goForward: function() {
     UIManager.dispatchViewManagerCommand(
       this.getWebViewBridgeHandle(),
       UIManager.RCTWebViewBridge.Commands.goForward,
       null
     );
-  };
+  },
 
-  goBack = () => {
+  goBack: function() {
     UIManager.dispatchViewManagerCommand(
       this.getWebViewBridgeHandle(),
       UIManager.RCTWebViewBridge.Commands.goBack,
       null
     );
-  };
+  },
 
-  reload = () => {
+  reload: function() {
     UIManager.dispatchViewManagerCommand(
       this.getWebViewBridgeHandle(),
       UIManager.RCTWebViewBridge.Commands.reload,
       null
     );
-  };
+  },
 
-  sendToBridge = (message: string) => {
+  sendToBridge: function (message: string) {
     WebViewBridgeManager.sendToBridge(this.getWebViewBridgeHandle(), message);
-  };
+  },
 
   /**
    * We return an event with a bunch of fields including:
    *  url, title, loading, canGoBack, canGoForward
    */
-  updateNavigationState = (event: Event) => {
+  updateNavigationState: function(event: Event) {
     if (this.props.onNavigationStateChange) {
       this.props.onNavigationStateChange(event.nativeEvent);
     }
-  };
+  },
 
-  getWebViewBridgeHandle = (): any => {
+  getWebViewBridgeHandle: function(): any {
     return ReactNative.findNodeHandle(this.refs[RCT_WEBVIEWBRIDGE_REF]);
-  };
+  },
 
-  onLoadingStart = (event: Event) => {
+  onLoadingStart: function(event: Event) {
     var onLoadStart = this.props.onLoadStart;
     onLoadStart && onLoadStart(event);
     this.updateNavigationState(event);
-  };
+  },
 
-  onLoadingError = (event: Event) => {
+  onLoadingError: function(event: Event) {
     event.persist(); // persist this event because we need to store it
     var {onError, onLoadEnd} = this.props;
     onError && onError(event);
@@ -259,9 +263,9 @@ class WebViewBridge extends React.Component {
       lastErrorEvent: event.nativeEvent,
       viewState: WebViewBridgeState.ERROR
     });
-  };
+  },
 
-  onLoadingFinish = (event: Event) => {
+  onLoadingFinish: function(event: Event) {
     var {onLoad, onLoadEnd} = this.props;
     onLoad && onLoad(event);
     onLoadEnd && onLoadEnd(event);
@@ -269,8 +273,8 @@ class WebViewBridge extends React.Component {
       viewState: WebViewBridgeState.IDLE,
     });
     this.updateNavigationState(event);
-  };
-}
+  },
+});
 
 var RCTWebViewBridge = requireNativeComponent('RCTWebViewBridge', WebViewBridge, {
   nativeOnly: {
