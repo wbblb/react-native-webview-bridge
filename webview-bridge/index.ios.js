@@ -16,7 +16,6 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
-var PropTypes = require('prop-types');
 var invariant = require('invariant');
 var keyMirror = require('keymirror');
 var resolveAssetSource = require('react-native/Libraries/Image/resolveAssetSource');
@@ -34,6 +33,7 @@ var {
     WebViewBridgeManager
   }
 } = ReactNative;
+var { PropTypes } = React;
 
 var BGWASH = 'rgba(255,255,255,0.8)';
 var RCT_WEBVIEWBRIDGE_REF = 'webviewbridge';
